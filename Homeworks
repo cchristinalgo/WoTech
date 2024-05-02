@@ -1,0 +1,106 @@
+0205
+Java HW:
+/*Easy:
+1. Create a function that returns smallest number of 2 numbers.
+
+For example:
+User provides 5
+User provides 7
+
+Function returns 5
+Main function prints out:
+5 is the smallest number
+*/
+import java.util.Scanner;
+
+
+public class Main {
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+
+    System.out.print("Enter the first number: ");
+    int num1 = sc.nextInt();
+
+    System.out.print("Enter the second number: ");
+    int num2 = sc.nextInt();
+
+    String result = checkNumber(num1, num2);
+    System.out.println(result);
+
+    sc.close();
+      }
+
+  public static String checkNumber(int num1, int num2){
+    if (num1 > num2){return num2 + " is the smallest number.";
+    }else{
+      return num1 + " is the smallest number.";
+         }
+  }
+}
+
+2. Create a function that returns a multiplication of 3 different numbers
+For example: 
+User provides 5
+User provides 7
+User provides 3
+
+Function returns 105
+Main function prints out 105
+
+import java.util.Scanner;
+
+public class Main {
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+
+    System.out.print("Enter the first number: ");
+    int num1 = sc.nextInt();
+
+    System.out.print("Enter the second number: ");
+    int num2 = sc.nextInt();
+
+    System.out.print("Enter the third number: ");
+    int num3 = sc.nextInt();
+
+    int result = multiNumber(num1, num2, num3);
+    System.out.println(result);
+
+    sc.close();
+      }
+
+  public static int multiNumber (int num1, int num2, int num3){
+      return num1 * num2 * num3;
+         }
+  }
+
+3. Create a function that returns a combination of first name and last name
+User provides "Oskars"
+User provides "Klaumanis"
+
+Function receives both of the names and returns "Oskars Klaumanis"
+Main function prints out the result
+
+
+import java.util.Scanner;
+
+public class Main {
+  public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+
+    System.out.print("Enter your first name: ");
+    String name1 = sc.nextLine();
+
+    System.out.print("Enter your last name: ");
+    String name2 = sc.nextLine();
+
+
+    String result = fullName(name1, name2);
+    System.out.println(result);
+
+    sc.close();
+      }
+
+  public static String fullName (String name1, String name2){
+      return name1 + " " + name2;
+         }
+  }

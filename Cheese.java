@@ -1,5 +1,4 @@
-Main class:
-```java
+// Main class
 import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
@@ -127,4 +126,186 @@ public class Main {
         }
     }
 }
-```
+
+// Customer class:
+import java.util.ArrayList;
+
+public class Customer {
+    private double money;
+    private ArrayList<Cheese> ownedCheeses = new ArrayList();
+
+    public Customer(double money) {
+        this.money = money;
+    }
+
+    public double getMoney() {
+        return this.money;
+    }
+
+    public void reduceMoney(double amount) {
+        this.money -= amount;
+    }
+
+    public void addCheeses(ArrayList<Cheese> cheeses) {
+        this.ownedCheeses.addAll(cheeses);
+    }
+
+    public ArrayList<Cheese> getOwnedCheeses() {
+        return this.ownedCheeses;
+    }
+}
+
+// CheeseShop class:
+import java.util.ArrayList;
+import java.util.Iterator;
+
+public class CheeseShop {
+    private ArrayList<Cheese> inventory = new ArrayList();
+    private ArrayList<Cheese> cart = new ArrayList();
+    private int nextCheeseId = 1;
+
+    public CheeseShop() {
+    }
+
+    public void addCheeseToShop(Cheese cheese) {
+        cheese.setId(this.nextCheeseId++);
+        this.inventory.add(cheese);
+    }
+
+    public void removeCheeseFromShop(int id) {
+        this.inventory.removeIf((cheese) -> {
+            return cheese.getId() == id;
+        });
+    }
+
+    public ArrayList<Cheese> showCheesesInStore() {
+        return this.inventory;
+    }
+
+    public Cheese getCheeseById(int id) {
+        Iterator var2 = this.inventory.iterator();
+
+        Cheese cheese;
+        do {
+            if (!var2.hasNext()) {
+                return null;
+            }
+
+            cheese = (Cheese)var2.next();
+        } while(cheese.getId() != id);
+
+        return cheese;
+    }
+
+    public void addCheeseToCart(Cheese cheese) {
+        this.cart.add(cheese);
+    }
+
+    public void removeCheeseFromCart(int id) {
+        this.cart.removeIf((cheese) -> {
+            return cheese.getId() == id;
+        });
+    }
+
+    public ArrayList<Cheese> getCart() {
+        return this.cart;
+    }
+
+    public double checkout(Customer customer) {
+        double totalCost = 0.0;
+
+        Cheese cheese;
+        for(Iterator var4 = this.cart.iterator(); var4.hasNext(); totalCost += cheese.getPrice()) {
+            cheese = (Cheese)var4.next();
+        }
+
+        if (customer.getMoney() >= totalCost) {
+            customer.reduceMoney(totalCost);
+            customer.addCheeses(new ArrayList(this.cart));
+            this.cart.clear();
+            return totalCost;
+        } else {
+            System.out.println("Not enough money, sorry.");
+            return 0.0;
+        }
+    }
+}
+
+
+// CheeseService class:
+public class CheeseService {
+    private CheeseShop shop;
+
+    public CheeseService(CheeseShop shop) {
+        this.shop = shop;
+    }
+
+    public void addCheese(Cheese cheese) {
+        this.shop.addCheeseToShop(cheese);
+    }
+
+    public void removeCheese(int id) {
+        this.shop.removeCheeseFromShop(id);
+    }
+
+    public void updateCheeseQuantity(int id, int newQuantity) {
+        Cheese cheese = this.shop.getCheeseById(id);
+        if (cheese != null) {
+            cheese.setQuantity(newQuantity);
+        } else {
+            System.out.println("Cheese not found.");
+        }
+
+    }
+}
+
+//Cheese class:
+public class Cheese {
+    private int id;
+    private String name;
+    private double price;
+    private int quantity;
+
+    public Cheese(int id, String name, double price, int quantity) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+    }
+
+    public int getId() {
+        return this.id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getPrice() {
+        return this.price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public int getQuantity() {
+        return this.quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public String toString() {
+        return "Cheese ID: " + this.id + ", Name: " + this.name + ", Price: €" + this.price + ", Quantity: " + this.quantity;
+    }
+}
